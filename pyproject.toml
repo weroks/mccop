@@ -1,0 +1,152 @@
+[project]
+name = "mccop"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "cheap-proteins",
+    "dima",
+    "esm3",
+    "fair-esm>=2.0.0",
+    "hydra-zen>=0.15.0",
+    "openpyxl>=3.1.5",
+    "pydantic>=2.11.7",
+    "pytest>=8.4.1",
+    "python-dotenv>=1.1.1",
+    "pytorch-ignite>=0.5.2",
+    "scikit-image>=0.25.2",
+    "statsmodels>=0.14.6",
+    "submitit>=1.5.3",
+    "umap-learn>=0.5.9.post2",
+    "wandb>=0.21.0",
+]
+
+
+[build-system]
+requires = ["setuptools>=64.0"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.1",
+    "ruff>=0.8.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["mccop"]
+namespaces = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu124", marker = "platform_system != 'Darwin'" },
+]
+esm3 = { git = "https://github.com/weroks/esm3" }
+cheap-proteins = { git = "https://github.com/MeshchaninovViacheslav/cheap-proteins.git" }
+dima = { git = "https://github.com/weroks/dima.git", rev = "be25383" }
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.mypy]
+explicit_package_bases = true
+disable_error_code = ["import-untyped"]
+
+[[tool.mypy.overrides]]
+module = "cloudpathlib.*"
+ignore_errors = true
+follow_imports = "skip"
+
+[tool.ruff]
+line-length = 119
+indent-width = 4
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ANN002",
+    "ANN003",
+    "ANN401",
+    "D413",
+    "COM812",
+    "D100",
+    "D104",
+    "D107",
+    "D205",
+    "PD901",
+    "D400",
+    "D401",
+    "D415",
+    "FA",
+    "SLF",
+    "INP",
+    "TRY003",
+    "TRY201",
+    "EM",
+    "FBT",
+    "RET",
+    "C406",
+    "E741",
+    "PLR2004",
+    "RUF009",
+    "RUF012",
+    "BLE001",
+    "S603",
+    "S607",
+    "S506",
+    "FIX002",
+    "NPY002",
+    "G004",
+    "S311",
+    "PIE790",
+    "TRY400",
+    "S108",
+    "W191",
+    "E111",
+    "E114",
+    "E117",
+    "D206",
+    "D300",
+    "Q000",
+    "Q001",
+    "Q002",
+    "Q003",
+    "COM812",
+    "COM819",
+    "D203",
+    "D213",
+    "N806",
+    "N803",
+    "E712",
+    "PLR0913",
+    "TC001",
+    "I001",
+    "N812",
+    "TD002",
+    "TD003",
+    "S324",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**/*.py" = [
+    "S101",
+    "ARG",
+    "FBT",
+]
+
+"*/guided_diffusion/*" = ["ALL"]
+"notebooks/*" = ["ALL"]
+"*/ddpm.py" = ["ARG002"]
+"*/smoother.py" = ["ARG002"]
+"*/smoothed_predictor.py" = ["ARG002"]
+
+[tool.pyright]
+typeCheckingMode = "off"

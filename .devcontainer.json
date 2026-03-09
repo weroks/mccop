@@ -1,0 +1,38 @@
+{
+    "dockerFile": "Dockerfile",
+    "build": {
+        "args": {"BUILDPLATFORM": "linux/amd64"}, 
+        "cacheFrom": "bulk-omics-fusion"
+    },
+	"workspaceFolder": "/srv/repo",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/srv/repo,type=bind",
+    "remoteEnv": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "/root/.config/gcloud/application_default_credentials.json"
+    },
+    "mounts": [
+        "source=${localEnv:HOME}/.config/gcloud,target=/root/.config/gcloud,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.debugpy",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.mypy-type-checker",
+                "charliermarsh.ruff",
+                "tamasfe.even-better-toml",
+                "ms-azuretools.vscode-docker",
+                "ms-toolsai.jupyter"
+            ],
+            "settings": {
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff",
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "explicit"
+                    }
+                }
+            }
+        }
+    }
+}
